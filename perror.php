@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 ini_set("display_errors", false);
 
 
-//×¢²áÒì³£´¦Àí
+//æ³¨å†Œå¼‚å¸¸å¤„ç†
 register_shutdown_function(function() {
     $error = error_get_last();
 
