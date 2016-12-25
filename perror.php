@@ -17,8 +17,25 @@ register_shutdown_function(function() {
 //可以捕获E_WARNING,E_NOTICE,E_USER_ERROR,E_USER_WARNING,E_USER_NOTICE, E_RECOVERABLE_ERROR
 //但无法捕获下列错误类型E_ERROR, E_PARSE, E_CORE_ERROR, E_CORE_WARNING, E_COMPILE_ERROR, E_COMPILE_WARNING
 set_error_handler(function($code, $error, $file = null, $line = null) {
+    $errortype = array (
+        E_ERROR              => 'Error',
+        E_WARNING            => 'Warning',
+        E_PARSE              => 'Parsing Error',
+        E_NOTICE             => 'Notice',
+        E_CORE_ERROR         => 'Core Error',
+        E_CORE_WARNING       => 'Core Warning',
+        E_COMPILE_ERROR      => 'Compile Error',
+        E_COMPILE_WARNING    => 'Compile Warning',
+        E_USER_ERROR         => 'User Error',
+        E_USER_WARNING       => 'User Warning',
+        E_USER_NOTICE        => 'User Notice',
+        E_STRICT             => 'Runtime Notice',
+        E_RECOVERABLE_ERROR  => 'Catchable Fatal Error'
+    );
+
 	if (error_reporting() & $code) {
-        echo '<p style="color:gray;">User Error:: '.$error.'</p>';
+        $type = $errortype[$code];
+        echo "<p style=\"color:gray;\">{$type}:: {$error}</p>";
         //throw new Exception($error, $code);
         return true;
 	}
@@ -39,7 +56,7 @@ echo '<pre>';
 //$a = array(1,2,3);
 print_r($a);
 
-if ($i==0) {
+if ($divisor == 0) {
     trigger_error("Cannot divide by zero", E_USER_ERROR);
 }
 
