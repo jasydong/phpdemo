@@ -10,7 +10,7 @@ register_shutdown_function(function() {
     $error = error_get_last();
 
     if (!empty($error)) {
-        echo '<p style="color:red;">shutdown:: '.$error['message'].', '.$error['file'].':'.$error['line'].'</p>';
+        echo '<p style="color:red;">Fatal Error:: '.$error['message'].', '.$error['file'].':'.$error['line'].'</p>';
     }
 });
 
@@ -18,7 +18,7 @@ register_shutdown_function(function() {
 //但无法捕获下列错误类型E_ERROR, E_PARSE, E_CORE_ERROR, E_CORE_WARNING, E_COMPILE_ERROR, E_COMPILE_WARNING
 set_error_handler(function($code, $error, $file = null, $line = null) {
 	if (error_reporting() & $code) {
-		debug_print_backtrace();
+        echo '<p style="color:gray;">User Error:: '.$error.'</p>';
         //throw new Exception($error, $code);
         return true;
 	}
@@ -26,6 +26,7 @@ set_error_handler(function($code, $error, $file = null, $line = null) {
 	return true;
 });
 
+//一旦异常被捕获, 程序将停止执行
 set_exception_handler(function($e) {
 	if ($e)	{
 		print_r($e);
@@ -43,11 +44,10 @@ if ($i==0) {
 }
 
 try {
-    $file = @fopen("filenoexists.txt", "r");
-    //$aa = new Nothing();
+    $file = fopen("filenoexists.txt", "r");
+    $aa = new Nothing();
     //throw new Exception('DOH!!');
 } catch (Exception $e) {
     throw $e;
 }
-
 
