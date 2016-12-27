@@ -1,11 +1,15 @@
 <?php
 //设置应该报告何种错误, 开发环境建议设置为E_ALL
+//参考: http://php.net/error_reporting
 error_reporting(E_ALL);
 
+//显示错误信息开关
+//参考: http://php.net/display-errors
 ini_set("display_errors", false);
 
 //注册错误以及异常处理(要尽可能早的注册,因为在注册之前的错误是无法捕获的)
 //可以捕获致命错误(Fatal Error), 一旦出现致命错误, 程序将终止运行
+//参考: http://php.net/register_shutdown_function
 register_shutdown_function(function() {
     $error = error_get_last();
 
@@ -16,6 +20,7 @@ register_shutdown_function(function() {
 
 //可以捕获E_WARNING,E_NOTICE,E_USER_ERROR,E_USER_WARNING,E_USER_NOTICE, E_RECOVERABLE_ERROR
 //但无法捕获下列错误类型E_ERROR, E_PARSE, E_CORE_ERROR, E_CORE_WARNING, E_COMPILE_ERROR, E_COMPILE_WARNING
+//参考: http://php.net/set_error_handler
 set_error_handler(function($code, $error, $file = null, $line = null) {
     $errortype = array (
         E_ERROR              => 'Error',
@@ -44,6 +49,7 @@ set_error_handler(function($code, $error, $file = null, $line = null) {
 });
 
 //一旦异常被捕获, 程序将停止执行
+//参考: http://php.net/set_exception_handler
 set_exception_handler(function($e) {
 	if ($e)	{
 		print_r($e);
@@ -56,13 +62,15 @@ echo '<pre>';
 //$a = array(1,2,3);
 print_r($a);
 
+//参考: http://php.net/trigger_error
 if ($divisor == 0) {
     trigger_error("Cannot divide by zero", E_USER_ERROR);
 }
 
+//
 try {
     $file = fopen("filenoexists.txt", "r");
-    $aa = new Nothing();
+    //$aa = new Nothing();
     //throw new Exception('DOH!!');
 } catch (Exception $e) {
     throw $e;
